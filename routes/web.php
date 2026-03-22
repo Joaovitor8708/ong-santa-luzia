@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
 Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
@@ -18,5 +20,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('planos', PlanoIndividualController::class);
     Route::resource('termos', TermoAbrigamentoController::class);
 });
-
+    
 require __DIR__.'/auth.php';
