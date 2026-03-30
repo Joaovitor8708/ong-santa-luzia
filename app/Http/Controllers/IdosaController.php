@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Idosa;
 use Illuminate\Http\Request;
+use App\Models\Doador;
+use App\Models\Doacao;
+use Illuminate\Support\Facades\DB;
 
 class IdosaController extends Controller
 {
@@ -91,7 +94,7 @@ class IdosaController extends Controller
         $idosa->update($data);
 
         return redirect('/dashboard')
-         ->with('success', 'Idosa cadastrada com sucesso.');
+         ->with('success', 'Idosa atualizada com sucesso.');
     }
 
     public function destroy(Idosa $idosa)
@@ -99,16 +102,15 @@ class IdosaController extends Controller
         $idosa->delete();
 
         return redirect()
-            ->route('idosas.index')
+            ->route('/dashboard')
             ->with('success', 'Idosa removida com sucesso.');
     }
 
-   public function dashboard(Request $request)
+ public function dashboard(Request $request)
 {
     $idosas = Idosa::with(['termos.responsavel'])->latest()->get();
 
     $idosaSelecionada = null;
-
     if ($request->filled('idosa')) {
         $idosaSelecionada = Idosa::with([
             'planoIndividual',
@@ -117,6 +119,44 @@ class IdosaController extends Controller
         ])->findOrFail($request->idosa);
     }
 
-    return view('dashboard', compact('idosas', 'idosaSelecionada'));
+    $doadores = Doador::with('doacoes')
+        ->withSum('doacoes', 'valor')
+        ->latest()
+        ->get();
+
+    $doadorSelecionado = null;
+    if ($request->filled('doador')) {
+        $doadorSelecionado = Doador::with('doacoes')->findOrFail($request->doador);
+    }
+
+    $doacoesAgrupadas = Doacao::selectRaw('YEAR(data_doacao) as ano, MONTH(data_doacao) as mes, SUM(valor) as total')
+        ->whereIn(DB::raw('YEAR(data_doacao)'), [now()->year - 1, now()->year])
+        ->groupByRaw('YEAR(data_doacao), MONTH(data_doacao)')
+        ->orderByRaw('YEAR(data_doacao), MONTH(data_doacao)')
+        ->get();
+
+    $dadosMesAtual = array_fill(0, 12, 0);
+    $dadosAnoPassado = array_fill(0, 12, 0);
+
+    foreach ($doacoesAgrupadas as $item) {
+        $indice = $item->mes - 1;
+
+        if ((int) $item->ano === (int) now()->year) {
+            $dadosMesAtual[$indice] = (float) $item->total;
+        }
+
+        if ((int) $item->ano === (int) now()->year - 1) {
+            $dadosAnoPassado[$indice] = (float) $item->total;
+        }
+    }
+
+    return view('dashboard', compact(
+        'idosas',
+        'idosaSelecionada',
+        'doadores',
+        'doadorSelecionado',
+        'dadosMesAtual',
+        'dadosAnoPassado'
+    ));
 }
 }

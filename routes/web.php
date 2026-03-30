@@ -6,6 +6,8 @@ use App\Http\Controllers\ResponsavelController;
 use App\Http\Controllers\PlanoIndividualController;
 use App\Http\Controllers\TermoAbrigamentoController;
 use App\Http\Controllers\PdfIdosaController;
+use App\Http\Controllers\DoadorController;
+use App\Http\Controllers\DoacaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +60,13 @@ Route::middleware(['auth'])->group(function () {
     // PDF da lista geral
     Route::get('/idosas/pdf/lista', [PdfIdosaController::class, 'lista'])
         ->name('idosas.pdf.lista');
+
+
+
+    Route::resource('doadores', DoadorController::class);
+    Route::resource('doacoes', DoacaoController::class)->except(['store']);
+
+    Route::post('/doadores/{doador}/doacoes', [DoacaoController::class, 'store'])->name('doacoes.store');
 });
 
 /*
