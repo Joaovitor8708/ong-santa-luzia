@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Doacao extends Model
 {
+    protected $table = 'doacoes';
+
     protected $fillable = [
         'doador_id',
         'valor',
@@ -23,6 +25,6 @@ class Doacao extends Model
 
     public function doador(): BelongsTo
     {
-        return $this->belongsTo(Doador::class);
+        return $this->belongsTo(Doador::class, 'doador_id');
     }
 }

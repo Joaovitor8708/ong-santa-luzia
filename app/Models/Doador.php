@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class Doador extends Model
 {
+    protected $table = 'doadores';
+
     protected $fillable = [
         'nome',
         'cpf',
@@ -17,6 +20,6 @@ class Doador extends Model
 
     public function doacoes(): HasMany
     {
-        return $this->hasMany(Doacao::class);
+        return $this->hasMany(Doacao::class, 'doador_id');
     }
 }

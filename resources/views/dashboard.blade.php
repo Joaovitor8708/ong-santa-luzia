@@ -143,6 +143,73 @@
         .btn-tab.inativa {
             background: #95a5a6;
         }
+
+        .bloco-lista {
+            margin-top: 25px;
+            background: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .tabela-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        table th {
+            background: #f8f8f8;
+        }
+
+        .btn-add {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .edit {
+            background: #3498db;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .delete {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+        }
     </style>
 </head>
 
@@ -171,14 +238,14 @@
             <li><a href="{{ route('dashboard') }}">Visão Geral</a></li>
             <li><a href="#">Usuários</a></li>
             <li><a href="#">Configurações</a></li>
-           <li>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;">
-                    Sair
-                </button>
-            </form>
-        </li>
+            <li>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;">
+                        Sair
+                    </button>
+                </form>
+            </li>
         </ul>
     </nav>
 </header>
@@ -189,7 +256,7 @@
     <h2>Nosso Impacto</h2>
 
     <div class="dashboard-container">
-        <div class="box" onclick="toggleLista()">
+        <div class="box" onclick="toggleListaIdosos()">
             <h3>{{ $idosas->count() }}</h3>
             <p>👵 Idosos acolhidos</p>
         </div>
@@ -199,8 +266,8 @@
             <p>🍽️ Refeições por mês</p>
         </div>
 
-        <div class="box">
-            <h3>315</h3>
+        <div class="box" onclick="toggleListaDoadores()">
+            <h3>{{ $doadores->count() }}</h3>
             <p>❤️ Doadores</p>
         </div>
 
@@ -210,12 +277,13 @@
         </div>
     </div>
 
-    <div id="lista-idosos" class="lista-idosos" style="{{ $idosaSelecionada || $errors->any() ? 'display:block;' : '' }}">
+    {{-- LISTA DE IDOSAS --}}
+    <div id="lista-idosos" class="bloco-lista" style="{{ $idosaSelecionada || old('form_tipo') === 'nova_idosa' ? 'display:block;' : 'display:none;' }}">
         <h2>Lista de Idosos</h2>
 
-        <button class="btn-add" type="button" onclick="toggleForm()">+ Nova Idosa</button>
+        <button class="btn-add" type="button" onclick="toggleFormIdosa()">+ Nova Idosa</button>
 
-        <div id="form-container" class="form-container" style="{{ old('form_tipo') === 'nova_idosa' ? 'display:block;' : '' }}">
+        <div id="form-container-idosa" class="form-container" style="{{ old('form_tipo') === 'nova_idosa' ? 'display:block;' : 'display:none;' }}">
             <form method="POST" action="{{ route('idosas.store') }}">
                 @csrf
                 <input type="hidden" name="form_tipo" value="nova_idosa">
@@ -246,65 +314,67 @@
             </form>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Responsável</th>
-                    <th>Cadastro</th>
-                    <th>Plano</th>
-                    <th>Termo</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @forelse($idosas as $idosa)
+        <div class="tabela-wrapper">
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ $idosa->nome }}</td>
-                        <td>{{ $idosa->cpf }}</td>
-                        <td>{{ $idosa->ultimoTermo?->responsavel?->nome ?? '-' }}</td>
-                        <td><span class="status-ok">✅</span></td>
-                        <td>
-                            @if($idosa->planoIndividual)
-                                <span class="status-ok">✅</span>
-                            @else
-                                <span class="status-pendente">❌</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($idosa->ultimoTermo)
-                                <span class="status-ok">✅</span>
-                            @else
-                                <span class="status-pendente">❌</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="acoes-linha">
-                                <a href="{{ route('idosas.show', $idosa->id) }}">
-                                    <button class="edit" type="button">Abrir</button>
-                                </a>
-
-                                <a href="{{ route('dashboard', ['idosa' => $idosa->id]) }}">
-                                    <button class="edit" type="button">Editar</button>
-                                </a>
-
-                                <form method="POST" action="{{ route('idosas.destroy', $idosa->id) }}" onsubmit="return confirm('Deseja realmente excluir esta idosa?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="delete" type="submit">Excluir</button>
-                                </form>
-                            </div>
-                        </td>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Responsável</th>
+                        <th>Cadastro</th>
+                        <th>Plano</th>
+                        <th>Termo</th>
+                        <th>Ações</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" style="text-align:center;">Nenhuma idosa cadastrada.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    @forelse($idosas as $idosa)
+                        <tr>
+                            <td>{{ $idosa->nome }}</td>
+                            <td>{{ $idosa->cpf }}</td>
+                            <td>{{ $idosa->ultimoTermo?->responsavel?->nome ?? '-' }}</td>
+                            <td><span class="status-ok">✅</span></td>
+                            <td>
+                                @if($idosa->planoIndividual)
+                                    <span class="status-ok">✅</span>
+                                @else
+                                    <span class="status-pendente">❌</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($idosa->ultimoTermo)
+                                    <span class="status-ok">✅</span>
+                                @else
+                                    <span class="status-pendente">❌</span>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="acoes-linha">
+                                    <a href="{{ route('idosas.show', $idosa->id) }}">
+                                        <button class="edit" type="button">Abrir</button>
+                                    </a>
+
+                                    <a href="{{ route('dashboard', ['idosa' => $idosa->id]) }}">
+                                        <button class="edit" type="button">Editar</button>
+                                    </a>
+
+                                    <form method="POST" action="{{ route('idosas.destroy', $idosa->id) }}" onsubmit="return confirm('Deseja realmente excluir esta idosa?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="delete" type="submit">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" style="text-align:center;">Nenhuma idosa cadastrada.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
 
         @if($idosaSelecionada)
             <div class="painel-edicao">
@@ -333,9 +403,9 @@
                 </div>
 
                 <div class="abas-botoes">
-                    <button type="button" class="btn-tab" id="btn-aba-dados" onclick="mostrarAba('aba-dados')">Cadastro da Idosa</button>
-                    <button type="button" class="btn-tab inativa" id="btn-aba-plano" onclick="mostrarAba('aba-plano')">Plano Individual</button>
-                    <button type="button" class="btn-tab inativa" id="btn-aba-termo" onclick="mostrarAba('aba-termo')">Termo de Abrigamento</button>
+                    <button type="button" class="btn-tab" id="btn-aba-dados" onclick="mostrarAbaIdosa('aba-dados')">Cadastro da Idosa</button>
+                    <button type="button" class="btn-tab inativa" id="btn-aba-plano" onclick="mostrarAbaIdosa('aba-plano')">Plano Individual</button>
+                    <button type="button" class="btn-tab inativa" id="btn-aba-termo" onclick="mostrarAbaIdosa('aba-termo')">Termo de Abrigamento</button>
                 </div>
 
                 <div id="aba-dados" class="aba-edicao ativa">
@@ -458,6 +528,233 @@
             </div>
         @endif
     </div>
+
+    {{-- LISTA DE DOADORES --}}
+    <div id="lista-doadores" class="bloco-lista" style="{{ $doadorSelecionado || old('form_tipo') === 'novo_doador' ? 'display:block;' : 'display:none;' }}">
+        <h2>Lista de Doadores</h2>
+
+        <button class="btn-add" type="button" onclick="toggleFormDoador()">+ Novo Doador</button>
+
+        <div id="form-container-doador" class="form-container" style="{{ old('form_tipo') === 'novo_doador' ? 'display:block;' : 'display:none;' }}">
+            <form method="POST" action="{{ route('doadores.store') }}">
+                @csrf
+                <input type="hidden" name="form_tipo" value="novo_doador">
+                <input type="hidden" name="criar_doacao" id="criar_doacao" value="0">
+
+                <!-- Abas -->
+                <div class="abas-botoes" style="margin-bottom: 15px;">
+                    <button type="button" class="btn-tab ativa" id="btn-novo-doador-cadastro" onclick="mostrarAbaNovoDador('aba-novo-doador-cadastro')">Cadastro</button>
+                    <button type="button" class="btn-tab inativa" id="btn-novo-doador-doacao" onclick="mostrarAbaNovoDador('aba-novo-doador-doacao')">Doação (Opcional)</button>
+                </div>
+
+                <!-- Aba Cadastro -->
+                <div id="aba-novo-doador-cadastro" class="aba-edicao ativa">
+                    <div class="grupo-campos">
+                        <input type="text" name="nome" placeholder="Nome do doador" value="{{ old('nome') }}" required>
+                        <input type="text" name="cpf" placeholder="CPF" value="{{ old('cpf') }}">
+                        <input type="text" name="telefone" placeholder="Telefone" value="{{ old('telefone') }}">
+                        <input type="email" name="email" placeholder="E-mail" value="{{ old('email') }}">
+                        <select name="tipo">
+                            <option value="Pessoa Física" {{ old('tipo') == 'Pessoa Física' ? 'selected' : '' }}>Pessoa Física</option>
+                            <option value="Empresa" {{ old('tipo') == 'Empresa' ? 'selected' : '' }}>Empresa</option>
+                        </select>
+                    </div>
+
+                    <div class="grupo-campos">
+                        <textarea name="observacoes" placeholder="Observações">{{ old('observacoes') }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Aba Doação -->
+                <div id="aba-novo-doador-doacao" class="aba-edicao">
+                    <p style="color: #666; margin-bottom: 10px; font-size: 0.9em;">Preencha os dados abaixo se deseja registrar uma doação junto ao cadastro do doador. Todos os campos desta seção são opcionais.</p>
+                    
+                    <div class="grupo-campos">
+                        <input type="number" step="0.01" min="0.01" name="doacao_valor" placeholder="Valor da doação" value="{{ old('doacao_valor') }}">
+                        <input type="date" name="doacao_data" value="{{ old('doacao_data') }}">
+                        <input type="text" name="doacao_forma_pagamento" placeholder="Forma de pagamento" value="{{ old('doacao_forma_pagamento') }}">
+                        <select name="doacao_tipo">
+                        <option value="Financeira" {{ old('doacao_tipo') == 'Financeira' ? 'selected' : '' }}>Financeira</option>
+                        <option value="Alimentos" {{ old('doacao_tipo') == 'Alimentos' ? 'selected' : '' }}>Alimentos</option>
+                        <option value="Roupas" {{ old('doacao_tipo') == 'Roupas' ? 'selected' : '' }}>Roupas</option>
+                        <option value="Medicamentos" {{ old('doacao_tipo') == 'Medicamentos' ? 'selected' : '' }}>Medicamentos</option>
+                        <option value="Higiene" {{ old('doacao_tipo') == 'Higiene' ? 'selected' : '' }}>Higiene</option>
+                        <option value="Outros" {{ old('doacao_tipo') == 'Outros' ? 'selected' : '' }}>Outros</option>
+                    </select>
+                    </div>
+
+                    <div class="grupo-campos">
+                        <textarea name="doacao_descricao" placeholder="Descrição da doação">{{ old('doacao_descricao') }}</textarea>
+                    </div>
+                </div>
+
+                <div style="margin-top:15px;">
+                    <button type="submit" class="btn-add">Salvar Novo Doador</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="tabela-wrapper">
+             @if($doadorSelecionado)
+            <div class="painel-edicao">
+                <h2>Editando Doador: {{ $doadorSelecionado->nome }}</h2>
+
+                <div class="resumo-selecao">
+                    <div class="resumo-box">
+                        <strong>Telefone</strong><br>
+                        {{ $doadorSelecionado->telefone ?? '-' }}
+                    </div>
+
+                    <div class="resumo-box">
+                        <strong>E-mail</strong><br>
+                        {{ $doadorSelecionado->email ?? '-' }}
+                    </div>
+
+                    <div class="resumo-box">
+                        <strong>Total Doado</strong><br>
+                        R$ {{ number_format($doadorSelecionado->doacoes->sum('valor'), 2, ',', '.') }}
+                    </div>
+
+                    <div class="resumo-box">
+                        <strong>Qtd. Doações</strong><br>
+                        {{ $doadorSelecionado->doacoes->count() }}
+                    </div>
+                </div>
+
+                <div class="abas-botoes">
+                    <button type="button" class="btn-tab" id="btn-aba-doador-cadastro" onclick="mostrarAbaDoador('aba-doador-cadastro')">Cadastro do Doador</button>
+                    <button type="button" class="btn-tab inativa" id="btn-aba-doador-doacoes" onclick="mostrarAbaDoador('aba-doador-doacoes')">Doações</button>
+                </div>
+
+                <div id="aba-doador-cadastro" class="aba-edicao ativa">
+                    <form method="POST" action="{{ route('doadores.update', $doadorSelecionado->id) }}">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="grupo-campos">
+                            <input type="text" name="nome" value="{{ old('nome', $doadorSelecionado->nome) }}" placeholder="Nome" required>
+                            <input type="text" name="cpf" value="{{ old('cpf', $doadorSelecionado->cpf) }}" placeholder="CPF">
+                            <input type="text" name="telefone" value="{{ old('telefone', $doadorSelecionado->telefone) }}" placeholder="Telefone">
+                            <input type="email" name="email" value="{{ old('email', $doadorSelecionado->email) }}" placeholder="E-mail">
+                            <select name="tipo">
+                                <option value="Pessoa Física" {{ old('tipo', $doadorSelecionado->tipo) == 'Pessoa Física' ? 'selected' : '' }}>Pessoa Física</option>
+                                <option value="Empresa" {{ old('tipo', $doadorSelecionado->tipo) == 'Empresa' ? 'selected' : '' }}>Empresa</option>
+                            </select>
+                        </div>
+
+                        <div class="grupo-campos">
+                            <textarea name="observacoes" placeholder="Observações">{{ old('observacoes', $doadorSelecionado->observacoes) }}</textarea>
+                        </div>
+
+                        <div style="margin-top:15px;">
+                            <button type="submit" class="btn-add">Salvar Doador</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="aba-doador-doacoes" class="aba-edicao">
+                    <form method="POST" action="{{ route('doacoes.store', $doadorSelecionado->id) }}">
+                        @csrf
+
+                        <div class="grupo-campos">
+                            <input type="number" step="0.01" min="0.01" name="valor" placeholder="Valor da doação" required>
+                            <input type="date" name="data_doacao" value="{{ date('Y-m-d') }}" required>
+                            <input type="text" name="forma_pagamento" placeholder="Forma de pagamento">
+                            <select name="tipo_doacao">
+                                <option value="Financeira">Financeira</option>
+                                <option value="Alimentos">Alimentos</option>
+                                <option value="Roupas">Roupas</option>
+                                <option value="Medicamentos">Medicamentos</option>
+                                <option value="Higiene">Higiene</option>
+                                <option value="Outros">Outros</option>
+                            </select>
+                        </div>
+
+                        <div class="grupo-campos">
+                            <textarea name="descricao" placeholder="Descrição da doação"></textarea>
+                        </div>
+
+                        <div style="margin-top:15px;">
+                            <button type="submit" class="btn-add">Salvar Doação</button>
+                        </div>
+                    </form>
+
+                    <div class="tabela-wrapper" style="margin-top:20px;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="color:black;">Data</th>
+                                    <th style="color:black;">Valor</th>
+                                    <th style="color:black;">Forma</th>
+                                    <th style="color:black;">Tipo</th>
+                                    <th style="color:black;">Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($doadorSelecionado->doacoes->sortByDesc('data_doacao') as $doacao)
+                                    <tr>
+                                        <td>{{ optional($doacao->data_doacao)->format('d/m/Y') }}</td>
+                                        <td>R$ {{ number_format($doacao->valor, 2, ',', '.') }}</td>
+                                        <td>{{ $doacao->forma_pagamento ?? '-' }}</td>
+                                        <td>{{ $doacao->tipo_doacao ?? '-' }}</td>
+                                        <td>{{ $doacao->descricao ?? '-' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" style="text-align:center;">Nenhuma doação cadastrada.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
+            <table>
+                <thead>
+                    <tr>
+                        <th style="color:black;">Nome</th>
+                        <th style="color:black;">Telefone</th>
+                        <th style="color:black;">Tipo</th>
+                        <th style="color:black;">Total Doado</th>
+                        <th style="color:black;">Qtd. Doações</th>
+                        <th style="color:black;">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @forelse($doadores as $doador)
+                        <tr>
+                            <td>{{ $doador->nome }}</td>
+                            <td>{{ $doador->telefone ?? '-' }}</td>
+                            <td>{{ $doador->tipo ?? '-' }}</td>
+                            <td>R$ {{ number_format($doador->doacoes_sum_valor ?? 0, 2, ',', '.') }}</td>
+                            <td>{{ $doador->doacoes->count() }}</td>
+                            <td>
+                                <div class="acoes-linha">
+                                    <a href="{{ route('dashboard', ['doador' => $doador->id]) }}">
+                                        <button class="edit" type="button">Editar</button>
+                                    </a>
+
+                                    <form method="POST" action="{{ route('doadores.destroy', $doador->id) }}" onsubmit="return confirm('Deseja realmente excluir este doador?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="delete" type="submit">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" style="text-align:center;">Nenhum doador cadastrado.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+       
+    </div>
 </section>
 </main>
 
@@ -476,30 +773,37 @@
 </div>
 
 <script>
-function toggleLista() {
+function toggleListaIdosos() {
     let lista = document.getElementById("lista-idosos");
     lista.style.display = lista.style.display === "block" ? "none" : "block";
 }
 
-function toggleForm() {
-    let form = document.getElementById("form-container");
+function toggleFormIdosa() {
+    let form = document.getElementById("form-container-idosa");
     form.style.display = form.style.display === "block" ? "none" : "block";
 }
-function mostrarAba(id) {
-    // Esconde todas as abas
-    document.querySelectorAll('.aba-edicao').forEach(function(aba) {
-        aba.classList.remove('ativa');
+
+function toggleListaDoadores() {
+    let lista = document.getElementById("lista-doadores");
+    lista.style.display = lista.style.display === "block" ? "none" : "block";
+}
+
+function toggleFormDoador() {
+    let form = document.getElementById("form-container-doador");
+    form.style.display = form.style.display === "block" ? "none" : "block";
+}
+
+function mostrarAbaIdosa(id) {
+    document.querySelectorAll('#aba-dados, #aba-plano, #aba-termo').forEach(function(aba) {
+        if (aba) aba.classList.remove('ativa');
     });
 
-    // Mostra a aba selecionada
     document.getElementById(id).classList.add('ativa');
 
-    // Resetar botões
     document.getElementById('btn-aba-dados').classList.add('inativa');
     document.getElementById('btn-aba-plano').classList.add('inativa');
     document.getElementById('btn-aba-termo').classList.add('inativa');
 
-    // Ativar botão correto
     if (id === 'aba-dados') {
         document.getElementById('btn-aba-dados').classList.remove('inativa');
     }
@@ -512,15 +816,62 @@ function mostrarAba(id) {
         document.getElementById('btn-aba-termo').classList.remove('inativa');
     }
 }
+
+function mostrarAbaDoador(id) {
+    document.querySelectorAll('#aba-doador-cadastro, #aba-doador-doacoes').forEach(function(aba) {
+        if (aba) aba.classList.remove('ativa');
+    });
+
+    document.getElementById(id).classList.add('ativa');
+
+    document.getElementById('btn-aba-doador-cadastro').classList.add('inativa');
+    document.getElementById('btn-aba-doador-doacoes').classList.add('inativa');
+
+    if (id === 'aba-doador-cadastro') {
+        document.getElementById('btn-aba-doador-cadastro').classList.remove('inativa');
+    }
+
+    if (id === 'aba-doador-doacoes') {
+        document.getElementById('btn-aba-doador-doacoes').classList.remove('inativa');
+    }
+}
+
+function mostrarAbaNovoDador(id) {
+    document.querySelectorAll('#aba-novo-doador-cadastro, #aba-novo-doador-doacao').forEach(function(aba) {
+        if (aba) aba.classList.remove('ativa');
+    });
+
+    document.getElementById(id).classList.add('ativa');
+
+    document.getElementById('btn-novo-doador-cadastro').classList.add('inativa');
+    document.getElementById('btn-novo-doador-doacao').classList.add('inativa');
+
+    if (id === 'aba-novo-doador-cadastro') {
+        document.getElementById('btn-novo-doador-cadastro').classList.remove('inativa');
+    }
+
+    if (id === 'aba-novo-doador-doacao') {
+        document.getElementById('btn-novo-doador-doacao').classList.remove('inativa');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const aba = "{{ request('aba', 'dados') }}";
+    const temIdosaSelecionada = @json((bool) $idosaSelecionada);
+    const temDoadorSelecionado = @json((bool) $doadorSelecionado);
 
-    if (aba === 'plano') {
-        mostrarAba('aba-plano');
-    } else if (aba === 'termo') {
-        mostrarAba('aba-termo');
-    } else {
-        mostrarAba('aba-dados');
+    if (temIdosaSelecionada) {
+        if (aba === 'plano') {
+            mostrarAbaIdosa('aba-plano');
+        } else if (aba === 'termo') {
+            mostrarAbaIdosa('aba-termo');
+        } else {
+            mostrarAbaIdosa('aba-dados');
+        }
+    }
+
+    if (temDoadorSelecionado) {
+        mostrarAbaDoador('aba-doador-cadastro');
     }
 });
 
@@ -556,13 +907,18 @@ function buscarCep(input) {
         });
 }
 
+const labelsMeses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+const dadosMesAtual = @json($dadosMesAtual ?? array_fill(0, 12, 0));
+const dadosAnoPassado = @json($dadosAnoPassado ?? array_fill(0, 12, 0));
+
 new Chart(document.getElementById('grafico'), {
     type: 'bar',
     data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
+        labels: labelsMeses,
         datasets: [{
-            label: 'Doações',
-            data: [120, 190, 300, 250, 220]
+            label: 'Doações em {{ now()->year }}',
+            data: dadosMesAtual
         }]
     }
 });
@@ -570,15 +926,15 @@ new Chart(document.getElementById('grafico'), {
 new Chart(document.getElementById('grafico-doacoes'), {
     type: 'line',
     data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
+        labels: labelsMeses,
         datasets: [
             {
-                label: '2024',
-                data: [100, 150, 200, 180, 210]
+                label: '{{ now()->year - 1 }}',
+                data: dadosAnoPassado
             },
             {
-                label: '2025',
-                data: [120, 190, 300, 250, 220]
+                label: '{{ now()->year }}',
+                data: dadosMesAtual
             }
         ]
     }
