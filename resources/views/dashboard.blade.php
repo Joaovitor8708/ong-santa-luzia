@@ -161,6 +161,7 @@
             border-collapse: collapse;
             margin-top: 15px;
             background: white;
+            
         }
 
         table th,
@@ -173,6 +174,7 @@
 
         table th {
             background: #f8f8f8;
+            color:rgb(0, 0, 0);
         }
 
         .btn-add {
@@ -315,68 +317,7 @@
         </div>
 
         <div class="tabela-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>Responsável</th>
-                        <th>Cadastro</th>
-                        <th>Plano</th>
-                        <th>Termo</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @forelse($idosas as $idosa)
-                        <tr>
-                            <td>{{ $idosa->nome }}</td>
-                            <td>{{ $idosa->cpf }}</td>
-                            <td>{{ $idosa->ultimoTermo?->responsavel?->nome ?? '-' }}</td>
-                            <td><span class="status-ok">✅</span></td>
-                            <td>
-                                @if($idosa->planoIndividual)
-                                    <span class="status-ok">✅</span>
-                                @else
-                                    <span class="status-pendente">❌</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($idosa->ultimoTermo)
-                                    <span class="status-ok">✅</span>
-                                @else
-                                    <span class="status-pendente">❌</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="acoes-linha">
-                                    <a href="{{ route('idosas.show', $idosa->id) }}">
-                                        <button class="edit" type="button">Abrir</button>
-                                    </a>
-
-                                    <a href="{{ route('dashboard', ['idosa' => $idosa->id]) }}">
-                                        <button class="edit" type="button">Editar</button>
-                                    </a>
-
-                                    <form method="POST" action="{{ route('idosas.destroy', $idosa->id) }}" onsubmit="return confirm('Deseja realmente excluir esta idosa?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="delete" type="submit">Excluir</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" style="text-align:center;">Nenhuma idosa cadastrada.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if($idosaSelecionada)
+            @if($idosaSelecionada)
             <div class="painel-edicao">
                 <h2>Editando: {{ $idosaSelecionada->nome }}</h2>
 
@@ -527,6 +468,67 @@
                 </div>
             </div>
         @endif
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Responsável</th>
+                        <th>Cadastro</th>
+                        <th>Plano</th>
+                        <th>Termo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @forelse($idosas as $idosa)
+                        <tr>
+                            <td>{{ $idosa->nome }}</td>
+                            <td>{{ $idosa->cpf }}</td>
+                            <td>{{ $idosa->ultimoTermo?->responsavel?->nome ?? '-' }}</td>
+                            <td><span class="status-ok">✅</span></td>
+                            <td>
+                                @if($idosa->planoIndividual)
+                                    <span class="status-ok">✅</span>
+                                @else
+                                    <span class="status-pendente">❌</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($idosa->ultimoTermo)
+                                    <span class="status-ok">✅</span>
+                                @else
+                                    <span class="status-pendente">❌</span>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="acoes-linha">
+                                    <a href="{{ route('idosas.show', $idosa->id) }}">
+                                        <button class="edit" type="button">Abrir</button>
+                                    </a>
+
+                                    <a href="{{ route('dashboard', ['idosa' => $idosa->id]) }}">
+                                        <button class="edit" type="button">Editar</button>
+                                    </a>
+
+                                    <form method="POST" action="{{ route('idosas.destroy', $idosa->id) }}" onsubmit="return confirm('Deseja realmente excluir esta idosa?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="delete" type="submit">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" style="text-align:center;">Nenhuma idosa cadastrada.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
     {{-- LISTA DE DOADORES --}}
