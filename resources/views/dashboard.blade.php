@@ -275,13 +275,17 @@
 @endif
 
 <header class="header">
-    <div class="logo-area">
+    <a class="logo-area" href="{{ route('dashboard') }}">
         <img src="{{ asset('imagens/Logo Abrigo Santa Luzia.png') }}" alt="Logo">
         <h1>Dashboard</h1>
-    </div>
+         </a>
+   
+
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
 
     <nav>
-        <ul>
+        <ul id="nav-menu">
+            <li><a href="{{ route('home') }}">Página Inicial</a></li>
             <li><a href="{{ route('dashboard') }}">Visão Geral</a></li>
             <li>
                 <div class="menu-usuario">
@@ -297,16 +301,7 @@
             <li>
     <form method="POST" action="{{ route('logout') }}">
         @csrf
-        <button type="submit" style="
-            background: none;
-            border: none;
-            color: rgb(255, 255, 255);
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-            font-size: 16px;
-        ">
+        <button type="submit">
             Sair
         </button>
     </form>
@@ -1140,6 +1135,26 @@ new Chart(document.getElementById('grafico-doacoes'), {
     }
 });
 
+
+function toggleMenu() {
+    const menu = document.getElementById('nav-menu');
+    menu.classList.toggle('show');
+    const hamburger = document.querySelector('.hamburger');
+    hamburger.classList.toggle('active');
+}
+
+// Fechar menu ao clicar em link
+document.addEventListener('DOMContentLoaded', function() {
+    const menuLinks = document.querySelectorAll('#nav-menu a, #nav-menu button');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.remove('show');
+            const hamburger = document.querySelector('.hamburger');
+            hamburger.classList.remove('active');
+        });
+    });
+});
 
 function toggleDropdown(event) {
     event.preventDefault();

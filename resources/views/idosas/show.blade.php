@@ -198,6 +198,7 @@
 
     <nav>
         <ul>
+            <li><a href="{{ route('home') }}">Página Inicial</a></li>
             <li><a href="/dashboard">Dashboard</a></li>
            <li><a href="{{ route('dashboard', ['idosa' => $idosa->id]) }}">Editar Cadastro</a></li>
            <li><a href="{{ route('dashboard', ['idosa' => $idosa->id, 'aba' => 'termo']) }}">Novo Termo</a></li>
