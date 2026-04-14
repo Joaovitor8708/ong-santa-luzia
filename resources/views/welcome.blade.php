@@ -45,7 +45,7 @@
         </section>
 
         <section class="servicos">
-            <img src="{{ asset('imagens/Ícone minimalista de maleta verde.png') }}" alt="Profissionais Capacitados" class="servico-img">
+            <img src="{{ asset('imagens/Ícone minimalista de maleta verde.png') }}" alt="Equipe de profissionais do abrigo" class="servico-img">
 
             <div class="container servico-texto">
                 <h2>Profissionais Capacitados</h2>
@@ -56,7 +56,7 @@
         </section>
 
         <section class="coração">
-            <img src="{{ asset('imagens/Coração verde simétrico em destaque.png') }}" alt="Amor e Dedicação" class="coração-img">
+            <img src="{{ asset('imagens/Coração verde simétrico em destaque.png') }}" alt="Ícone de cuidado e solidariedade" class="coração-img">
             <div class="container coração-texto">
                 <h2>Amor e Dedicação</h2>
                 <p>
@@ -66,7 +66,7 @@
         </section>
 
         <section class="remedio">
-            <img src="{{ asset('imagens/Ícone de cápsula verde.png') }}" alt="Cuidados de Saúde" class="remedio-img">
+            <img src="{{ asset('imagens/Ícone de cápsula verde.png') }}" alt="Ícone de medicação e cuidado com a saúde" class="remedio-img">
             <div class="container remedio-texto">
                 <h2>Cuidados de Saúde</h2>
                 <p>
@@ -108,7 +108,7 @@
 
             <div class="cards">
                 <div class="card">
-                    <img src="{{ asset('imagens/ATIVIDADES.jpg') }}" alt="Atividades Recreativas" class="card-img">
+                    <img src="{{ asset('imagens/brincando.jpg') }}" alt="Atividade recreativa com residentes" class="card-img">
                     <div class="card-texto">
                         <h2>Atividades Recreativas</h2>
                         <p>Oferecemos atividades recreativas para estimular a convivência, a alegria e o bem-estar.</p>
@@ -116,7 +116,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="{{ asset('imagens/CUIDADOS.jpg') }}" alt="Cuidados Humanizados" class="card-img">
+                    <img src="{{ asset('imagens/mão de velho.png') }}" alt="Mãos de uma pessoa idosa em destaque" class="card-img">
                     <div class="card-texto">
                         <h2>Cuidados Humanizados</h2>
                         <p>Atendimento com carinho, respeito e atenção às necessidades de cada residente.</p>
@@ -124,7 +124,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="{{ asset('imagens/SAUDE.jpg') }}" alt="Saúde e Bem-estar" class="card-img">
+                    <img src="{{ asset('imagens/vó e neto.jpg') }}" alt="Encontro entre avó e neto" class="card-img">
                     <div class="card-texto">
                         <h2>Saúde e Bem-estar</h2>
                         <p>Monitoramento constante da saúde com apoio de profissionais e cuidados contínuos.</p>
@@ -240,6 +240,7 @@
             });
         }
     </script>
+    <x-accessibility-feedback />
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
