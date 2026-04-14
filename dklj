@@ -1,0 +1,254 @@
+[33mcommit dcfb8fdceb61cbb25c0cb41313e04e50e7d14254[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32macessibilidade[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/acessibilidade[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Fri Apr 10 22:18:59 2026 -0300
+
+    foi atualizado a pagina incial e ajeitado o pix
+
+[33mcommit cb473dda93feaf09bf2599d24fb60d14926cd58f[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Mon Apr 6 21:11:25 2026 -0300
+
+    foi adicionado afordences, botão voltar a pagina incial , menu hamburger no dashboard
+
+[33mcommit a0527a941f78d5e4f634504dae38d9794a810b79[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Mon Apr 6 19:48:22 2026 -0300
+
+    foi inserido o front dos volutarios
+
+[33mcommit dcc2d7f9eb1d0f0cea95c948947012016f819b5b[m
+Author: Joaovitor8708 <vitorsantanalins@gmail.com>
+Date:   Wed Apr 1 19:17:21 2026 -0300
+
+    feat: finalizado back-end das sprints 1 a 4
+
+[33mcommit 99a6b2b5e7003a6f54964964eb47ca943cf40e4e[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Tue Mar 31 22:47:18 2026 -0300
+
+    agora no dashboard, pode mudar a senha do usuário logado, a rota registrar esta autenticada so pode criar um novo usuário se estiver logado no dashboard  e foi adicionado o submenu usuário
+
+[33mcommit 8b0a9cc30afe9329a0f07a6b428e79e58b348b11[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Tue Mar 31 21:20:51 2026 -0300
+
+    colcado as paginas em porgues, mudar senha,registrar e confirmar senha
+
+[33mcommit 43fbad97c374a5b25576669abcf8ea8529b0baaa[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Mon Mar 30 21:49:34 2026 -0300
+
+    foi colcoado no padrão os botões do heder
+
+[33mcommit 66aea73cdd4c73ea2e192c536aa2b764cc25ac24[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Mon Mar 30 21:31:21 2026 -0300
+
+    mudei a cor do texto de branco para preto
+
+[33mcommit 9b09f065c3ebe782e8ac1f816bd7f95813ccb5fd[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Mon Mar 30 21:12:24 2026 -0300
+
+    foi inserido na hora de criar um novo doador ja inserir o valor da doação automaticamente.
+
+[33mcommit 721943edad46a3840cdbc79859090223d9b1c414[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Mon Mar 30 20:25:16 2026 -0300
+
+    foi criado as taeblas, doação e doador, model, controller e rotas
+
+[33mcommit 9feb0e8002e46c0165fe776ca24c768c7ef1b466[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Sun Mar 29 18:47:12 2026 -0300
+
+    foi implementado o sitema de logout, peço ao meu front que deixe bonitinho
+
+[33mcommit 4079572bffab70114974b60dbb57cc434e824e09[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Sun Mar 29 18:04:12 2026 -0300
+
+    foi atualizado o dashboard , inseriro percistencia para salvamento dos dados, formularios reais, impressão dos formularios, salvamento para pdf e atualizado as rotas.
+
+[33mcommit 7f9ca7c55e36a9404f0fc0f962a803d5efdc5c5f[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Sun Mar 29 11:41:30 2026 -0300
+
+    atualizando o formulario de cadastro de idosas e aopção ver tudo sobre a idosa
+
+[33mcommit 9ccbcdcb5a9fa60acc076145176e5efd5e2000fa[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Sun Mar 29 10:01:35 2026 -0300
+
+    foi implementado em blade os arquivos, dashboard, atualização do index, criado as rotas, admin dashboardcontroller
+
+[33mcommit 77ecefc83002703d519c113e3651306e34b29aca[m
+Merge: d35a61f 5e6b8f7
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Sat Mar 28 10:13:52 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit d35a61f864d56395b5fd253ee92431e2aac8d788[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Sat Mar 28 10:10:31 2026 -0300
+
+    alterações nem lembro mais, acho que foi o teste para tentar colocar o css
+
+[33mcommit 5e6b8f7f3bd53600a45a2f8fb9cde618dd8adf12[m
+Author: raphael <raphaeleloi2@gmail.com>
+Date:   Sun Mar 22 12:17:39 2026 -0300
+
+    Desativa vite durante os testes para evitar erro de manifest
+
+[33mcommit 40750fd4927b06339b13670cef38dbbac97eb1dd[m
+Merge: 6d2fc99 6566cc2
+Author: raphael <raphaeleloi2@gmail.com>
+Date:   Sun Mar 22 11:58:45 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit 6d2fc99bcddaa9f68c9a5c6d1582336e2ded5f3f[m
+Author: raphael <raphaeleloi2@gmail.com>
+Date:   Sun Mar 22 11:58:40 2026 -0300
+
+    Correção na autenticação, Fortify, models e requests iniciais
+
+[33mcommit 6566cc2da8b0159968a8ed4a62886a5dd090e03b[m
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Sun Mar 22 11:46:10 2026 -0300
+
+    formulario e feito o dashboard
+
+[33mcommit c9d3b85c249b206f38c9eaf95fd41ee178a55e12[m
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Sun Mar 22 10:41:20 2026 -0300
+
+    index
+
+[33mcommit 407fbc1f0504c26b07fceff4ef4649866dc43757[m
+Merge: d1cb28b 302303f
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Sun Mar 22 02:14:19 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit d1cb28bc7c85366d70b19da403afa9ad3533a877[m
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Sun Mar 22 02:14:15 2026 -0300
+
+    Atualização HTML e css, adicionado o footer
+
+[33mcommit 302303fb756186cd41a8065bfe4eb32248d1fbde[m
+Merge: 1489b80 fbb9897
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Sun Mar 22 01:40:50 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit 1489b8063e4b9065c6a8dab2942ee2bad02bf4f9[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Sun Mar 22 01:40:43 2026 -0300
+
+    tentando criar a pagina login em porgues
+
+[33mcommit fbb98977e7f830ea8ac364847ec36dabdce306b0[m
+Merge: 85ee15a 8f1cbb4
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Sun Mar 22 01:37:44 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit 85ee15a4e69c8676e8fa4d3efd7074572f03821e[m
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Sun Mar 22 01:37:40 2026 -0300
+
+    Atualização HTML e CSS
+
+[33mcommit 8f1cbb438b8d16a614eb96c62ea03fb55e06f981[m
+Merge: e7ab490 ca55e51
+Author: raphael <raphaeleloi2@gmail.com>
+Date:   Sun Mar 22 01:23:49 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit e7ab4905172a30f29bb937516e800b9e597bf276[m
+Author: raphael <raphaeleloi2@gmail.com>
+Date:   Sun Mar 22 01:23:35 2026 -0300
+
+    Alteração dos Controllers, views e rotas
+
+[33mcommit ca55e51d0ab30ae3809db2f9693c443bd039e779[m
+Merge: d23c414 4ff9110
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Sun Mar 22 00:34:06 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit d23c414303e99a8ed1d02ba305efde9b769a3df4[m
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Sun Mar 22 00:34:01 2026 -0300
+
+    Nova Atualização do CSS e HTML, pfvr verificar
+
+[33mcommit 4ff91107668304a4dd91942c516bcaaf1b9269e0[m
+Author: raphael <raphaeleloi2@gmail.com>
+Date:   Sat Mar 21 00:50:29 2026 -0300
+
+    Adiciona rotas resource para CRUD do sistema
+
+[33mcommit 46b88176eec8cefe9928242b7be8a07a45778746[m
+Merge: 7b54d44 24cc8be
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Fri Mar 20 23:52:19 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit 7b54d4419f998fa8eb813173c2d4eb66b5a41fd5[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Fri Mar 20 23:52:12 2026 -0300
+
+    copiei o css e js para a pasta certa para testar e fiz um teste de rotas
+
+[33mcommit 24cc8be1e9f764f6aac7440201e2edb8a72d6424[m
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Fri Mar 20 23:51:21 2026 -0300
+
+    CSS atualizado
+
+[33mcommit 784693ffa93eb031e9cb2e0862445de1d022681a[m
+Merge: 654ea21 f101f94
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Fri Mar 20 23:25:49 2026 -0300
+
+    Merge branch 'main' of https://github.com/Carlos-Antonio95/ong-santa-luzia
+
+[33mcommit 654ea216f4c0e16f50b084ad2c3157a8656c27eb[m
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Fri Mar 20 23:25:44 2026 -0300
+
+    HTML e CSS muito atuallizado
+
+[33mcommit f101f94e06d402babc3608a070558fbc618534ed[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Fri Mar 20 23:15:48 2026 -0300
+
+    foi criado os model e relacionamentos, os migrations com banco de dados, e os controllers com as funções de cruds e views vazia
+
+[33mcommit 25241a545d2408e18a72178edf1a02052386d606[m
+Author: Breno <ricardobreno607@gmail.com>
+Date:   Thu Mar 19 22:10:13 2026 -0300
+
+    Atualização no html, css e js
+
+[33mcommit 779d3b824ea1f123a5453d0f083f63de648cd86f[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Tue Mar 17 22:55:14 2026 -0300
+
+     criando repositorio santa luzia
+
+[33mcommit 187c975262034553a9622c3f0c1f1e4ffc747fff[m
+Author: Carlos Antonio <carlosantonioob@gmail.com>
+Date:   Tue Mar 17 22:50:39 2026 -0300
+
+    Initial commit
